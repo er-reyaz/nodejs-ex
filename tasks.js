@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-// var db = mongojs('mongodb://abhi:abhi@ds159997.mlab.com:59997/mytasklist', ['tasks']);//cloud
- var db = mongojs('mongodb://reyaz:reyaz@ds139979.mlab.com:39979/tasklist', ['tasks']);//cloud
+// var db = mongojs('mongodb://reyaz:reyaz@ds139979.mlab.com:39979/tasklist', ['tasks']);//cloud
+ var db = mongojs('mongodb://reyaz:reyaz@ds235807.mlab.com:35807/nse', ['virtual']);
 // mongodb://<dbuser>:<dbpassword>@ds139979.mlab.com:39979/tasklist
 //var db = mongojs('mongodb://127.0.0.1:27017/tasklist', ['tasks']);//local
 
 // Get All Tasks
-router.get('/tasks', function(req, res, next){
-    db.tasks.find(function(err, tasks){
+router.get('/virtual', function(req, res, next){
+    db.virtual.find(function(err, table){
         if(err){
             res.send(err);
         }else {
-            res.json(tasks);
+            res.json(table);
         }
     });
 });
