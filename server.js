@@ -5,11 +5,13 @@ var express = require('express'),
     
 Object.assign=require('object-assign')
 
-app.engine('html', require('ejs').renderFile);
-app.use(morgan('combined'))
+app.engine('html', require('ejs').renderFile); 
+app.use(morgan('combined'));
+var tasks = require('./tasks');
+app.use('/api', tasks);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
     mongoURLLabel = "";
 
@@ -109,37 +111,32 @@ module.exports = app ;
 
 // -------------------------------
 
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
+// var express = require('express');
+// var path = require('path');
+// var bodyParser = require('body-parser');
 
-// var index = require('./routes/index');
-var tasks = require('./tasks');
+// // var index = require('./routes/index');
+// var tasks = require('./tasks');
 
-// var port = 3002;
+// // var port = 3002;
 
- var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
-    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
-    mongoURLLabel = "";
+// var app = express();
 
-var app = express();
+// // View Engine
+// // app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+// app.engine('html', require('ejs').renderFile);
 
-// View Engine
-// app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
+// // Set Static folder
+// app.use(express.static(path.join(__dirname, 'client')));
 
-// Set Static folder
-app.use(express.static(path.join(__dirname, 'client')));
+// // Body Parser MW
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: false}));
 
-// Body Parser MW
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+// //app.use('/', index);
+// app.use('/api', tasks);
 
-//app.use('/', index);
-app.use('/api', tasks);
-
-app.listen(port, function(){
-    console.log('Server started on port ' + port);
-});
+// app.listen(port, function(){
+//     console.log('Server started on port ' + port);
+// });
