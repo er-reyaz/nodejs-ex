@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var tasks = require('./tasks');
     
 Object.assign=require('object-assign')
+
 // Add headers to solve CORS problem
 app.use(function (req, res, next) {
   // Website you wish to allow to connect

@@ -17,7 +17,6 @@ router.get('/virtual', function(req, res, next){
     });
 });
 
-// Get All Actual
 router.get('/actual', function(req, res, next){
     db.actual.find(function(err, table){
         if(err){
@@ -28,7 +27,6 @@ router.get('/actual', function(req, res, next){
     });
 });
 
-// Get All profit
 router.get('/profit', function(req, res, next){
     db.profit.find(function(err, table){
         if(err){
@@ -39,7 +37,6 @@ router.get('/profit', function(req, res, next){
     });
 });
 
-// Get All nselist
 router.get('/nselist', function(req, res, next){
     db.nselist.find(function(err, table){
         if(err){
