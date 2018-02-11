@@ -24,9 +24,15 @@ app.use(function (req, res, next) {
 
 app.engine('html', require('ejs').renderFile); 
 app.use(morgan('combined'));
-app.use('/api', tasks);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+// error handling
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500).send('Something bad happened!');
+});
+
+app.use('/api', tasks);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -110,12 +116,6 @@ app.get('/pagecount', function (req, res) {
   } else {
     res.send('{ pageCount: -1 }');
   }
-});
-
-// error handling
-app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.status(500).send('Something bad happened!');
 });
 
 initDb(function(err){

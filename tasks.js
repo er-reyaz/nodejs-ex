@@ -47,9 +47,9 @@ router.get('/nselist', function(req, res, next){
     });
 });
 
-// Get Single Task
-router.get('/task/:id', function(req, res, next){
-    db.tasks.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, task){
+// Get Single record
+router.get('/actual/:id', function(req, res, next){
+    db.actual.findOne({_id: mongojs.ObjectId(req.params.id)},function(err, task){
         if(err){
             res.send(err);
         }else {
@@ -58,62 +58,58 @@ router.get('/task/:id', function(req, res, next){
     });
 });
 
-// Save Task
-router.post('/task', function(req, res, next){
-    var task = req.body;
-    if(!task.title || !(task.isDone + '')){
+// Save record
+router.post('/actual', function(req, res, next){
+    var record = req.body;
+    if(!record){
         res.status(400);
         res.json({
             "error": "Bad Data"
         });
     }else {
-        db.tasks.save(task, function(err, task){
+        db.actual.save(record, function(err, record){
             if(err){
                 res.send(err);
             }else {
-                res.json(task);
+                res.json(record);
             }
         });
     }
 });
 
-// Delete Task
-router.delete('/task/:id', function(req, res, next){
-    db.tasks.remove({_id: mongojs.ObjectId(req.params.id)},function(err, task){
+// Delete record
+router.delete('/actual/:id', function(req, res, next){
+    db.actual.remove({_id: mongojs.ObjectId(req.params.id)},function(err, actual){
         if(err){
             res.send(err);
         }else {
-            res.json(task);
+            res.json(actual);
         }
     });
 });
 
-// Update Task
-router.put('/task/:id', function(req, res, next){
-    var task = req.body;
-    var updTask = {};
-
-    if(task.isDone){
-        updTask.isDone = task.isDone;
-    }
-
-    if(task.title){
-        updTask.title = task.title;
-    }
-
-    if(!updTask){
+// Update record
+router.put('/actual/:id', function(req, res, next){
+    var record = req.body;
+    var updRecord = {
+        $set: {quantity:record.quantity,
+        buyPrice:record.buyPrice,
+        startDate:record.startDate,
+        zeroLoss:record.zeroLoss}
+    };
+    if(!updRecord){
         res.status(400);
         res.json({
             "error": "Bad Data"
         });
     }else {
-        db.tasks.update({_id: mongojs.ObjectId(req.params.id)},updTask, {}, function(err, task){
+       db.actual.update({_id: mongojs.ObjectId(req.params.id)}, updRecord, function(err, record){
         if(err){
             res.send(err);
         }else {
-            res.json(task);
+            res.json(record);
         }
-    });
+   });
     }
 });
 
